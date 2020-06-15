@@ -1,59 +1,9 @@
+// TODO convert into module and inlcude other js files
+
+
 function Point(x,y){
     this.x = x;
     this.y = y;
-}
-
-// Abstract Class
-class TetrisPiece{
-
-    constructor(scoreLabel) {
-        this.currentPosition = new Point(0,0);
-        this.colour = "blue";
-        // this.rotations = this.getRotations();
-        this.currentRotation = 0;
-    }
-    
-    rotate(){
-
-    }
-    backRotate(){
-
-    }
-    update(){
-        if(this.falling == true){
-            this.currentPosition.y++;
-        }
-    }
-    draw(grid){
-        // square.style.backgroundColor = this.colour;
-        // square.classList.add("taken");
-    }
-    invalidate(grid){
-        //Undraw 
-        square = grid[this.currentPosition.x][this.currentPosition.y]
-        square.style.backgroundColor = this.colour;
-        square.classList.remove("taken");
-    }
-}
-class TetrisLPiece extends TetrisPiece{
-    constructor(){
-        super();
-        this._kernel = [
-            new Point(0,0),
-            new Point(0,1),
-            new Point(0,2),
-            new Point(1,2)
-        ]
-    }
-    draw(grid){
-        this._kernel.forEach(kernelPoint => {
-            let xPoint = kernelPoint.x + this.currentPosition.x
-            let yPoint = kernelPoint.y + this.currentPosition.y
-            let square = grid[yPoint][xPoint];
-            square.style.backgroundColor = this.colour;
-            square.classList.add("taken");
-        });
-    }
 }
 
 
@@ -109,7 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // game.startGame();
 
     // Test Game UI
-    let testPiece = new TetrisLPiece();
+    let testPiece = new TetrisTPiece();
+    // let testPiece = new TetrisSPiece();
+    // let testPiece = new TetrisZPiece();
+    // let testPiece = new TetrisIPiece();
+    // let testPiece = new TetrisOPiece();
+
+
+
+
     testPiece.draw(grid);
     // Test Update Score
     game.updateScore(20);
