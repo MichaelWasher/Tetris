@@ -3,16 +3,21 @@
 // Abstract Class
 class TetrisPiece{
 
-    constructor(scoreLabel) {
-        this._currentPosition = new Point(0,1);
-        this._colour = "blue";
+    constructor(
+        currentPosition 
+    ) {
+        console.log(`Created a new Tetris Piece at ${currentPosition}`);
+        this._currentPosition = currentPosition;
+        this._colour = this.getColour();
         this._rotations = this.getRotations();
         this._currentRotation = 0;
         this._totalRotations = 0;
         this._falling = true;
         this._kernel = this._rotations[0];
     }
-    
+    getColour(){
+        return "blue";
+    }
     rotate(){
         this._currentRotation++;
         this._currentRotation %= this._totalRotations; 
@@ -27,8 +32,6 @@ class TetrisPiece{
         }
     }
     draw(grid){
-        // square.style.backgroundColor = this.colour;
-        // square.classList.add("taken");
         this._kernel.forEach(kernelPoint => {
             let xPoint = kernelPoint.x + this._currentPosition.x
             let yPoint = kernelPoint.y + this._currentPosition.y
@@ -45,8 +48,8 @@ class TetrisPiece{
     }
 }
 class TetrisLPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "red";
     }
     getRotations()
     {
@@ -74,8 +77,8 @@ class TetrisLPiece extends TetrisPiece{
     }
 }
 class TetrisJPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "blue";
     }
     getRotations()
     {
@@ -104,8 +107,8 @@ class TetrisJPiece extends TetrisPiece{
 }
 
 class TetrisTPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "orange";
     }
     getRotations()
     {
@@ -132,10 +135,10 @@ class TetrisTPiece extends TetrisPiece{
         ]];
     }
 }
-//DONE
+
 class TetrisSPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "black";
     }
     getRotations()
     {
@@ -153,8 +156,8 @@ class TetrisSPiece extends TetrisPiece{
     }
 }
 class TetrisZPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "yellow";
     }
     getRotations()
     {
@@ -171,11 +174,9 @@ class TetrisZPiece extends TetrisPiece{
         ]];
     }
 }
-//DONE
-
 class TetrisOPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "blue";
     }
     getRotations()
     {
@@ -188,8 +189,8 @@ class TetrisOPiece extends TetrisPiece{
     }
 }
 class TetrisIPiece extends TetrisPiece{
-    constructor(){
-        super();
+    getColour(){
+        return "red";
     }
     getRotations()
     {

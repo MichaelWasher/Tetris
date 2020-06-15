@@ -59,16 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // game.startGame();
 
     // Test Game UI
-    let testPiece = new TetrisTPiece();
-    // let testPiece = new TetrisSPiece();
-    // let testPiece = new TetrisZPiece();
-    // let testPiece = new TetrisIPiece();
-    // let testPiece = new TetrisOPiece();
-
-
-
-
-    testPiece.draw(grid);
+    let testPieces = [
+        new TetrisTPiece(new Point(0,0)),
+        new TetrisSPiece(new Point(3,0)),
+        new TetrisZPiece(new Point(6,0)), 
+        new TetrisIPiece(new Point(0,5)), 
+        new TetrisOPiece(new Point(3,5)),
+        new TetrisJPiece(new Point(6,5)),
+        new TetrisLPiece(new Point(0,10))
+    ]
+    testPieces.forEach(piece => piece.draw(grid));
     // Test Update Score
     game.updateScore(20);
 
