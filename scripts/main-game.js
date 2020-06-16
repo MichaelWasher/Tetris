@@ -22,7 +22,7 @@ class GameLoop{
         console.log(`Score updated to ${newScore}`);
         this._scoreLabel.textContent = newScore;
     }
-    movePieces(tetrisPieces){
+    movePieces(tetrisPieces){   
         tetrisPieces.forEach(x => x.update());
     }
     invalidate(){
@@ -30,8 +30,15 @@ class GameLoop{
     }
     update(){
         
-        let fallingPieces = this._tetrisPieces.filter(x => x.isFalling())
+        let fallingPieces = this._tetrisPieces.filter(x => x.isFalling());
+
         if(fallingPieces.length > 0){
+            fallingPieces.forEach(piece => {
+                // IF A NEXT SQUARE IS TAKEN STOP
+                if(piece.getNextSquares(this._grid).some(x => x.classList.contains('taken'))){
+                    piece.stopFalling();
+                }
+            });
             this.movePieces(fallingPieces);
         }else{
             this._tetrisPieces.push(randomTetrisPiece())
@@ -50,7 +57,7 @@ class GameLoop{
         if(!this._endGame){
             setTimeout(() => {
                     this.loop.call(this)
-                }, 1000);
+                }, 100); // TODO DEBUG, should be 1000
         }
     }
     startGame(){

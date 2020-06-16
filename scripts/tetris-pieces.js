@@ -31,29 +31,40 @@ class TetrisPiece{
             this._currentPosition.y++;
         }
     }
+    getNextSquares(grid){
+        let nextPosition = new Point(this._currentPosition.x, this._currentPosition.y+1);
+        return this.getSquares(nextPosition, grid);
+    }
+    getSquares(position, grid){
+        return this._kernel.map(kernelPoint => {
+            let yPoint = kernelPoint.y + position.y
+            let xPoint = kernelPoint.x + position.x
+            return grid[yPoint][xPoint];
+        })
+    }
     isFalling(){
         return this._falling;
     }
+    stopFalling(){
+        this._falling = false;
+    }
+
     moveRight(){ this._currentPosition.x++; }
     moveLeft(){ this._currentPosition.x--; }
     draw(grid){
-        this._kernel.forEach(kernelPoint => {
-            let xPoint = kernelPoint.x + this._currentPosition.x
-            let yPoint = kernelPoint.y + this._currentPosition.y
-            let square = grid[yPoint][xPoint];
+        this.getSquares(this._currentPosition, grid).forEach(square => {
             square.style.backgroundColor = this._colour;
             square.classList.add("taken");
         });
     }
     invalidate(grid){
         //Undraw 
-        this._kernel.forEach(kernelPoint => {
-            let xPoint = kernelPoint.x + this._currentPosition.x
-            let yPoint = kernelPoint.y + this._currentPosition.y
-            let square = grid[yPoint][xPoint];
-            square.style.backgroundColor = "";
-            square.classList.remove("taken");
-        });
+        if(this._falling){
+            this.getSquares(this._currentPosition, grid).forEach(square => {
+                square.style.backgroundColor = "";
+                square.classList.remove("taken");
+            });
+        }
     }
 }
 class TetrisLPiece extends TetrisPiece{
