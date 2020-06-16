@@ -4,7 +4,7 @@
 class TetrisPiece{
 
     constructor(
-        currentPosition 
+        currentPosition = new Point(0,0) 
     ) {
         console.log(`Created a new Tetris Piece at ${currentPosition}`);
         this._currentPosition = currentPosition;
@@ -27,10 +27,15 @@ class TetrisPiece{
         this._currentRotation = Math.abs(this._currentRotation) % this._totalRotations;
     }
     update(){
-        if(this.falling){
+        if(this._falling){
             this._currentPosition.y++;
         }
     }
+    isFalling(){
+        return this._falling;
+    }
+    moveRight(){ this._currentPosition.x++; }
+    moveLeft(){ this._currentPosition.x--; }
     draw(grid){
         this._kernel.forEach(kernelPoint => {
             let xPoint = kernelPoint.x + this._currentPosition.x
@@ -42,9 +47,13 @@ class TetrisPiece{
     }
     invalidate(grid){
         //Undraw 
-        square = grid[this._currentPosition.x][this._currentPosition.y]
-        square.style.backgroundColor = this._colour;
-        square.classList.remove("taken");
+        this._kernel.forEach(kernelPoint => {
+            let xPoint = kernelPoint.x + this._currentPosition.x
+            let yPoint = kernelPoint.y + this._currentPosition.y
+            let square = grid[yPoint][xPoint];
+            square.style.backgroundColor = "";
+            square.classList.remove("taken");
+        });
     }
 }
 class TetrisLPiece extends TetrisPiece{
