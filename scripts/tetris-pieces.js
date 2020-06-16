@@ -4,7 +4,7 @@
 class TetrisPiece{
 
     constructor(
-        currentPosition 
+        currentPosition = new Point(0,0) 
     ) {
         console.log(`Created a new Tetris Piece at ${currentPosition}`);
         this._currentPosition = currentPosition;
@@ -27,24 +27,45 @@ class TetrisPiece{
         this._currentRotation = Math.abs(this._currentRotation) % this._totalRotations;
     }
     update(){
-        if(this.falling){
+        if(this._falling){
             this._currentPosition.y++;
         }
     }
+    getPosition(){
+        return Object.assign({}, this._currentPosition);
+    }
+    getFalling(){
+        return this._falling;
+    }
+    setFalling(isFalling){
+        this._falling = isFalling;
+    }
+    updatePosition(newPoint, grid){
+        this.invalidate(grid);
+        this._currentPosition = newPoint;
+        this.draw(grid);
+    }
+    getTakenPoints(position = this._currentPosition){
+        return this._kernel.map(kernelPoint => {
+            let xPoint = kernelPoint.x + position.x;
+            let yPoint = kernelPoint.y + position.y;
+            return new Point(xPoint, yPoint);
+        });
+    }
     draw(grid){
-        this._kernel.forEach(kernelPoint => {
-            let xPoint = kernelPoint.x + this._currentPosition.x
-            let yPoint = kernelPoint.y + this._currentPosition.y
-            let square = grid[yPoint][xPoint];
+        this.getTakenPoints().forEach(kernelPoint => {
+            let square = grid[kernelPoint.y][kernelPoint.x];
             square.style.backgroundColor = this._colour;
             square.classList.add("taken");
         });
     }
     invalidate(grid){
         //Undraw 
-        square = grid[this._currentPosition.x][this._currentPosition.y]
-        square.style.backgroundColor = this._colour;
-        square.classList.remove("taken");
+        this.getTakenPoints().forEach(kernelPoint => {
+            let square = grid[kernelPoint.y][kernelPoint.x];
+            square.style.backgroundColor = "";
+            square.classList.remove("taken");
+        });
     }
 }
 class TetrisLPiece extends TetrisPiece{
