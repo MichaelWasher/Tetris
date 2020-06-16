@@ -18,18 +18,32 @@ class TetrisPiece{
     getColour(){
         return "blue";
     }
-    rotate(){
+    rotate(grid){
+        this.invalidate(grid);
         this._currentRotation++;
         this._currentRotation %= this._totalRotations; 
+        this.draw(grid);
     }
-    backRotate(){
+    backRotate(grid){
+        this.invalidate(grid);
         this._currentRotation--;
         this._currentRotation = Math.abs(this._currentRotation) % this._totalRotations;
+        this.draw(grid);
     }
-    update(){
-        if(this._falling){
-            this._currentPosition.y++;
-        }
+
+    getWidth(){
+        let max_x = this._kernel.reduce((total, num) => { return Math.max(total, num.x)}, 0) +1;
+        let min_x =this._kernel.reduce((total, num) => {return Math.min(total, num.x)}, max_x);
+        return max_x - min_x;
+    }
+
+    getHeight(){
+        let max_y = this._kernel.reduce((total, num) => { return Math.max(total, num.y)}, 0) +1;
+        let min_y = this._kernel.reduce((total, num) => { return Math.min(total, num.y)}, max_y);
+        return max_y - min_y;
+    }
+    getCurrentPosition(){
+        return Object.assign({}, this._currentPosition);
     }
     getNextSquares(grid){
         let nextPosition = new Point(this._currentPosition.x, this._currentPosition.y+1);
@@ -45,12 +59,14 @@ class TetrisPiece{
     isFalling(){
         return this._falling;
     }
-    stopFalling(){
-        this._falling = false;
+    setFalling(newValue){
+        this._falling = newValue;
     }
-
-    moveRight(){ this._currentPosition.x++; }
-    moveLeft(){ this._currentPosition.x--; }
+    updatePosition(newPoint, grid){
+        this.invalidate(grid);
+        this._currentPosition = newPoint;
+        this.draw(grid);
+    }
     draw(grid){
         this.getSquares(this._currentPosition, grid).forEach(square => {
             square.style.backgroundColor = this._colour;
