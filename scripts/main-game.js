@@ -8,7 +8,9 @@ function Point(x,y){
 }
 
 function randomTetrisPiece(){
-    return new TetrisIPiece();
+    let pieceOptions = [TetrisIPiece, TetrisLPiece, 
+        TetrisJPiece, TetrisTPiece, TetrisOPiece, TetrisSPiece, TetrisZPiece]
+    return new pieceOptions[Math.floor(Math.random() * pieceOptions.length)];
 }
 
 class GameLoop{
