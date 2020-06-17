@@ -15,6 +15,16 @@ class TetrisPiece{
         this._falling = true;
         this._kernel = this._rotations[0];
     }
+    getWidth(){
+        let max_x = this._kernel.reduce((total, num) => { return Math.max(total, num.x)}, 0) +1;
+        let min_x =this._kernel.reduce((total, num) => {return Math.min(total, num.x)}, max_x);
+        return max_x - min_x;
+    }
+    getHeight(){
+        let max_y = this._kernel.reduce((total, num) => { return Math.max(total, num.y)}, 0) +1;
+        let min_y = this._kernel.reduce((total, num) => { return Math.min(total, num.y)}, max_y);
+        return max_y - min_y;
+    }
     getColour(){
         return "blue";
     }

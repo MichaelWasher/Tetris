@@ -18,6 +18,8 @@ class GameLoop{
         this._endGame = false;
         this._grid = grid;
         this._fallingPiece = null;
+        this._gridHeight = this._grid.length;
+        this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
     }
     updateScore(newScore){
         console.log(`Score updated to ${newScore}`);
@@ -31,15 +33,31 @@ class GameLoop{
             });
         });
     }
+    checkValidPosition(position, piece){
+        let width = piece.getWidth();
+        let height = piece.getHeight();
+        // Check edges
+        if(position.x < 0 || position.x + width > this._gridWidth){
+            return false;
+        }
+        if(position.y < 0 || position.y + height > this._gridHeight){
+            return false;
+        }
+        return true;
+    }   
     movePieceDown(piece){
         let newPoint = piece.getPosition();
         newPoint.y++;
+        if(!this.checkValidPosition(newPoint, piece)){
+            piece.setFalling(false);
+            return false;
+        }
         piece.updatePosition(newPoint, this._grid);
+        return true;
     }
     update(){
-        if(this._fallingPiece != null && this._fallingPiece.getFalling()){
-            this.movePieceDown(this._fallingPiece);
-        }else{
+        // IF no active piece or piece fails to move down create new piece
+        if(this._fallingPiece == null || !this.movePieceDown(this._fallingPiece)){
             this._fallingPiece = randomTetrisPiece();
             this._tetrisPieces.push(this._fallingPiece)
         }
@@ -56,7 +74,7 @@ class GameLoop{
         if(!this._endGame){
             setTimeout(() => {
                     this.loop.call(this)
-                }, 1000);
+                }, 70); // TODO DEUB should be 1000. Setting for testing
         }
     }
     startGame(){
