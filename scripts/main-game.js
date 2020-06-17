@@ -2,9 +2,21 @@
 
 'use strict'; 
 
-function Point(x,y){
-    this.x = x;
-    this.y = y;
+class Point{
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+    }
+    add(x,y){
+        this.x += x;
+        this.y += y;
+    }
+    equals(point){
+        if(point.x == this.x && point.y == this.y){
+            return true;
+        }
+        return false;
+    }
 }
 
 function randomTetrisPiece(){
@@ -38,6 +50,31 @@ class GameLoop{
             });
         });
     }
+    checkPieceCollisions(nextPoint, piece){
+        let newPoints = piece.getTakenPoints(nextPoint);
+
+        // Ignore current squares
+        let collisionPoints = this._tetrisPieces.map(piece => { 
+            if (!piece.getFalling()) 
+                return piece.getTakenPoints()
+            }).flat().filter(x => { 
+                return (x != null && x != undefined) 
+            });
+        
+        //TODO Filter Unique Points
+        // collisionPoints = new Set(collisionPoints);
+
+        let collision = collisionPoints.some(usedPoint =>{
+            return newPoints.some(newPoint => {
+                if(newPoint.equals(usedPoint)){
+                    return true;
+                }
+            })
+        });
+
+        return collision;
+
+    }
     checkValidPosition(position, piece){
         let width = piece.getWidth();
         let height = piece.getHeight();
@@ -46,6 +83,10 @@ class GameLoop{
             return false;
         }
         if(position.y < 0 || position.y + height > this._gridHeight){
+            return false;
+        }
+        // Check other pieces
+        if(this.checkPieceCollisions(position, piece)){
             return false;
         }
         return true;
