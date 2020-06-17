@@ -20,6 +20,11 @@ class GameLoop{
         this._fallingPiece = null;
         this._gridHeight = this._grid.length;
         this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
+
+        // Event Listener
+        document.addEventListener('keyup', event => {
+            this.keyEventListener(event);
+        });
     }
     updateScore(newScore){
         console.log(`Score updated to ${newScore}`);
@@ -55,11 +60,25 @@ class GameLoop{
         piece.updatePosition(newPoint, this._grid);
         return true;
     }
+    movePieceRight(piece){
+        let newPoint = piece.getPosition();
+        newPoint.x++;
+        if(this.checkValidPosition(newPoint, piece)){
+            piece.updatePosition(newPoint, this._grid);
+        }
+    }
+    movePieceLeft(piece){
+        let newPoint = piece.getPosition();
+        newPoint.x--;
+        if(this.checkValidPosition(newPoint, piece)){
+            piece.updatePosition(newPoint, this._grid);
+        }
+    }
     update(){
         // IF no active piece or piece fails to move down create new piece
         if(this._fallingPiece == null || !this.movePieceDown(this._fallingPiece)){
             this._fallingPiece = randomTetrisPiece();
-            this._tetrisPieces.push(this._fallingPiece)
+            this._tetrisPieces.push(this._fallingPiece);
         }
     }
     draw(){
@@ -68,17 +87,34 @@ class GameLoop{
     }
     loop(){
         console.log("Tetris iteration triggered");
-        this.invalidate()
+        this.invalidate();
         this.update();
         this.draw();
         if(!this._endGame){
             setTimeout(() => {
-                    this.loop.call(this)
+                    this.loop.call(this);
                 }, 70); // TODO DEUB should be 1000. Setting for testing
         }
     }
     startGame(){
         this.loop();
+    }
+    keyEventListener(event){
+        let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
+        switch(event.keyCode)
+        {
+            case LEFT_KEY:
+                this.movePieceLeft(this._fallingPiece);
+                console.log("Right key pressed");
+                break;
+            case RIGHT_KEY:
+                this.movePieceRight(this._fallingPiece);
+                console.log("Left key pressed");
+                break;
+            default:
+                console.log("Other key pressed");
+                break;
+        }
     }
 
 }
@@ -104,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.push(squares.splice(0,width));
     }
 
-    console.log(`Found Grid ${squares.length} squares in the grid.`)
+    console.log(`Found Grid ${squares.length} squares in the grid.`);
     console.log(`Grid populated with ${grid.length} rows`);
 
 
