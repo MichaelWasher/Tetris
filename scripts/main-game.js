@@ -45,8 +45,23 @@ class GameLoop{
         }
     }
     checkPieceCollisions(piece){
-        let squares = piece.getNextSquares(this._grid);
-        return squares.some(x => x.classList.contains('taken'));
+        let nextSquares = piece.getNextSquares(this._grid);
+        let currentSquares = piece.getSquares(piece.getCurrentPosition(), this._grid);
+        
+        // Ignore current squares
+        currentSquares.forEach(square => {
+            square.classList.remove("taken");
+        });
+
+        let collision = nextSquares.some(x => x.classList.contains('taken'));
+
+        // Reset current squares
+        currentSquares.forEach(square => {
+            square.classList.add("taken");
+        });
+
+        return collision;
+
     }
 
     checkValidPosition(position, piece){
@@ -60,15 +75,11 @@ class GameLoop{
             return false;
         }
         // Check other pieces
-        piece.invalidate(this._grid);
         if(this.checkPieceCollisions(piece)){
             return false;
         }
-        piece.draw(this._grid);
         return true;
-    }
-    
-    
+    }   
     draw(){
         // Draw all Tetris Pieces
         this._tetrisPieces.forEach(x => x.draw(this._grid));
@@ -78,7 +89,6 @@ class GameLoop{
         this.update();
         this.invalidate()
         this.draw();
-        var _this = this;
         if(!this._endGame){
             setTimeout(() => {
                     this.loop.call(this)
@@ -150,7 +160,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = 20;
     // Find Squares and Grid
     const gameGrid = document.querySelector(".main-grid");
+    
+
     let scoreLabel = document.querySelector("#current-score");
+    //Build squares
+    var div = document.createElement("div");
+    for(let i = 0; i < width * height; i++){
+        gameGrid.appendChild(document.createElement("div"));    
+    }
+
     let squares = Array.from(document.querySelectorAll(".main-grid div"));
     let grid = [];
     //Split squares into a grid

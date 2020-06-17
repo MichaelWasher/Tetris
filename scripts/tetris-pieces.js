@@ -193,7 +193,7 @@ class TetrisSPiece extends TetrisPiece{
 }
 class TetrisZPiece extends TetrisPiece{
     getColour(){
-        return "yellow";
+        return "black";
     }
     getRotations()
     {
