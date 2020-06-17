@@ -143,15 +143,15 @@ class GameLoop{
                     this.loop.call(this);
                 }, 70); // TODO DEUB should be 1000. Setting for testing
         }else{
-            this.endGame();
+            this.invalidate();
+            alert("Game Over");
         }
     }
     startGame(){
         this.loop();
     }
     endGame(){
-        this.invalidate();
-        alert("Game Over");
+        this._endGame = true;
     }
     keyEventListener(event){
         let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
@@ -200,8 +200,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    var game = new GameLoop(scoreLabel, grid);
-    game.startGame();
+    // var game = new GameLoop(scoreLabel, grid);
+    let startButton = document.querySelector("#start-button");
+    var game = null;
+    startButton.addEventListener('click', (event) => {
+        if (game == null){
+            game = new GameLoop(scoreLabel, grid);
+            game.startGame();
+        }
+    })
+     
+    let stopButton = document.querySelector("#reset-button");
+    stopButton.addEventListener('click', (event) => {
+        if (game != null){
+            game.endGame();
+            game = null;
+        }
+    })
+    // game.startGame();
 
     // // Test Game UI
     // let testPieces = [
@@ -215,6 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ]
     // testPieces.forEach(piece => piece.draw(grid));
     // Test Update Score
-    game.updateScore(20);
+    // game.updateScore(20);
 
 })
