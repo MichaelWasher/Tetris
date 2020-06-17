@@ -119,6 +119,11 @@ class GameLoop{
         // IF no active piece or piece fails to move down create new piece
         if(this._fallingPiece == null || !this.movePieceDown(this._fallingPiece)){
             this._fallingPiece = randomTetrisPiece();
+            // If new piece has collision then end game
+            if(!this.checkValidPosition(this._fallingPiece.getPosition(), this._fallingPiece)){
+                this._endGame = true;
+                return;
+            }
             this._tetrisPieces.push(this._fallingPiece);
         }
     }
@@ -135,10 +140,16 @@ class GameLoop{
             setTimeout(() => {
                     this.loop.call(this);
                 }, 70); // TODO DEUB should be 1000. Setting for testing
+        }else{
+            this.endGame();
         }
     }
     startGame(){
         this.loop();
+    }
+    endGame(){
+        this.invalidate();
+        alert("Game Over");
     }
     keyEventListener(event){
         let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
