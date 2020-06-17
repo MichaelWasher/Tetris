@@ -40,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Find Squares and Grid
     const gameGrid = document.querySelector(".main-grid");
     let scoreLabel = document.querySelector("#current-score");
+    
+    //Build squares
+    var div = document.createElement("div");
+    for(let i = 0; i < width * height; i++){
+        gameGrid.appendChild(document.createElement("div"));    
+    }
+
     let squares = Array.from(document.querySelectorAll(".main-grid div"));
     let grid = [];
     //Split squares into a grid
