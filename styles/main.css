@@ -7,11 +7,11 @@
     width: 100%;
     justify-content: center;
     display:flex;
-    margin-top: 20px;
+    margin-top: 1rem;
 }
 .main-grid{
-    width: 300px;
-    height: 600px;
+    width: 20rem;
+    height: 40rem;
     display: flex;
     flex-wrap: wrap;
 }
@@ -21,8 +21,8 @@
 }
 
 .main-grid div{
-    height: 30px;
-    width: 30px;
+    height: 2rem;
+    width: 2rem;
     /* background-color: rgb(112,112,112, 0.1); */
     border-color: rgb(112,112,112, 0.3);
     border-width: 1px;
@@ -31,16 +31,16 @@
 }
 
 .preview-grid{
-    margin-left: 20px;
-    width: 120px;
-    height: 120px;
+    margin-left: 1rem;
+    width: 8rem;
+    height: 8rem;
     display: flex;
     flex-wrap: wrap;
 }
 
 .preview-grid div{
-    height: 30px;
-    width: 30px;
+    height: 2rem;
+    width: 2rem;
     /* background-color: rgb(112,112,112, 0.1); */
     border-color: rgb(112,112,112, 0.3);
     border-width: 1px;
@@ -48,6 +48,6 @@
     box-sizing: border-box;
 }
 .gameLogo {
-    margin-top: 25px;
-    height: 100px;
+    margin-top: 1rem;
+    height: 5rem;
 }
