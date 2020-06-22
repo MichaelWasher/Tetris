@@ -27,12 +27,14 @@ function randomTetrisPiece(){
 }
 
 class GameLoop{
-    constructor(scoreLabel, grid){
+    constructor(scoreLabel, mainGrid, previewGrid){
         this._scoreLabel = scoreLabel;
         this._usedPointsAndColour = [];
         this._endGame = false;
-        this._grid = grid;
+        this._grid = mainGrid;
+        this._previewGrid = previewGrid;
         this._fallingPiece = randomTetrisPiece();
+        this._nextPiece = randomTetrisPiece();
         this._gridHeight = this._grid.length;
         this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
 
@@ -47,6 +49,12 @@ class GameLoop{
     }
     invalidate(){
         this._grid.forEach(row => {
+            row.forEach(square => {
+                square.style.backgroundColor = "";
+                square.classList.remove("taken");
+            });
+        });
+        this._previewGrid.forEach(row => {
             row.forEach(square => {
                 square.style.backgroundColor = "";
                 square.classList.remove("taken");
@@ -159,7 +167,8 @@ class GameLoop{
             
         }else{ // if invalid
             this.lockPiece(this._fallingPiece);
-            this._fallingPiece = randomTetrisPiece();
+            this._fallingPiece = this._nextPiece;
+            this._nextPiece = randomTetrisPiece();
             // If new piece has collision then end game
         
             if(!this.checkValidPosition(this._fallingPiece.getPosition(), this._fallingPiece)){
@@ -174,6 +183,14 @@ class GameLoop{
         drawPoints.forEach(usedPointAndColour => {
             let usedPoint = usedPointAndColour.position;
             let square = this._grid[usedPoint.y][usedPoint.x];
+            square.style.backgroundColor = usedPointAndColour.colour;
+            square.classList.add("taken");
+        })
+
+        // draw preview grid
+        this._nextPiece.getTakenPointsAndColour().forEach(usedPointAndColour => {
+            let usedPoint = usedPointAndColour.position;
+            let square = this._previewGrid[usedPoint.y][usedPoint.x];
             square.style.backgroundColor = usedPointAndColour.colour;
             square.classList.add("taken");
         })
@@ -230,10 +247,11 @@ class GameLoop{
 document.addEventListener('DOMContentLoaded', () => {
     const width = 10;
     const height = 20;
+    const previewWidth = 4;
     // Find Squares and Grid
     const gameGrid = document.querySelector(".main-grid");
-    let scoreLabel = document.querySelector("#current-score");
-    
+    let scoreLabel = document.querySelector("#current-score");    
+
     //Build squares
     var div = document.createElement("div");
     for(let i = 0; i < width * height; i++){
@@ -251,10 +269,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`Found Grid ${squares.length} squares in the grid.`);
     console.log(`Grid populated with ${grid.length} rows`);
 
+    // Load Preview Grid
+    squares = Array.from(document.querySelectorAll(".preview-grid div"));
+    let previewGrid = [];
+    while(squares.length >= previewWidth ){
+        previewGrid.push(squares.splice(0,previewWidth ));
+    }
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    var game = new GameLoop(scoreLabel, grid);
+    var game = new GameLoop(scoreLabel, grid, previewGrid);
     // let startButton = document.querySelector("#start-button");
     // var game = null;
     // startButton.addEventListener('click', (event) => {
