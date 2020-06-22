@@ -49,3 +49,7 @@
     border-style: solid;
     box-sizing: border-box;
 }
+.gameLogo {
+    margin-top: 25px;
+    height: 100px;
+}
