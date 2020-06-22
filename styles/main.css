@@ -30,7 +30,7 @@
     box-sizing: border-box;
 }
 
-.preview-grid{
+.secondary-grid{
     margin-left: 1rem;
     width: 8rem;
     height: 8rem;
@@ -38,7 +38,7 @@
     flex-wrap: wrap;
 }
 
-.preview-grid div{
+.secondary-grid div{
     height: 2rem;
     width: 2rem;
     /* background-color: rgb(112,112,112, 0.1); */
@@ -50,4 +50,12 @@
 .gameLogo {
     margin-top: 1rem;
     height: 5rem;
+}
+.secondary-grid-container{
+    width: auto;
+
+}
+.secondary-grid-container h3{
+    text-align: center;
+    margin-top: 0rem;
 }
