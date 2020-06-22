@@ -37,7 +37,8 @@ class GameLoop{
         this._nextPiece = randomTetrisPiece();
         this._gridHeight = this._grid.length;
         this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
-
+        this._currentScore = 0;
+        this._scoreIncrement = 10;
         // Event Listener
         document.addEventListener('keyup', event => {
             this.keyEventListener(event);
@@ -169,7 +170,9 @@ class GameLoop{
                     pointColour.position.y++;
                 };
             });
+            return true;
         }
+        return false;
     }
     update(){
         // IF no active piece or piece fails to move down create new piece
@@ -195,10 +198,11 @@ class GameLoop{
             // Check all new used pieces for full rows
             for (const [rowNumber, _] of Object.entries(hash)) {
                 console.log(`Checking Row Number: ${rowNumber}`);
-                this.checkRowIsFull(rowNumber);
+                if(this.checkRowIsFull(rowNumber)){
+                    this._currentScore+= this._scoreIncrement;
+                }
             }
 
-                
             // Get new piece
             this._fallingPiece = this._nextPiece;
             this._nextPiece = randomTetrisPiece();
@@ -218,6 +222,7 @@ class GameLoop{
     }
 
     draw(){
+        this.updateScore(this._currentScore)
         // draw all Tetris Pieces
         let drawPoints = this._usedPointsAndColour.concat(this._fallingPiece.getTakenPointsAndColour()).flat();
         drawPoints.forEach(usedPointAndColour => {
