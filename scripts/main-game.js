@@ -147,7 +147,30 @@ class GameLoop{
         this._usedPointsAndColour = this._usedPointsAndColour.concat(piece.getTakenPointsAndColour());
         this._fallingPiece = null;
     }
+    // Check for Full
+    checkRowIsFull(rowNumber = this._gridHeight-1){
+        // NOTE: INDEX vs Length (off by one issue)
+        
+        //foreach row for new points added, are they complete? (if count >= width)
+        var numOFUsedSquares = this._usedPointsAndColour.filter(pointColour => {
+            return pointColour.position.y == rowNumber;
+        }).length;
+        console.log(`Row Number ${rowNumber} has ${numOFUsedSquares} used squares.`);
 
+        if(numOFUsedSquares == this._gridWidth){
+            // Remove all items in row
+            this._usedPointsAndColour = this._usedPointsAndColour.filter(pointColour => {
+                return pointColour.position.y != rowNumber;
+            });
+
+            // everything above this row needs to be shifted down
+            this._usedPointsAndColour.forEach(pointColour => {
+                if (pointColour.position.y < rowNumber){
+                    pointColour.position.y++;
+                };
+            });
+        }
+    }
     update(){
         // IF no active piece or piece fails to move down create new piece
         //Move point down
@@ -159,11 +182,28 @@ class GameLoop{
             this._fallingPiece.updatePosition(newPoint, this._grid);
             
         }else{ // if invalid
+
+            // Gather all affected rows
+            var hash = {};
+            this._fallingPiece.getTakenPoints().forEach(point => { 
+                    hash[point.y] = true;
+                });
+
+            // Lock Piece
             this.lockPiece(this._fallingPiece);
+            
+            // Check all new used pieces for full rows
+            for (const [rowNumber, _] of Object.entries(hash)) {
+                console.log(`Checking Row Number: ${rowNumber}`);
+                this.checkRowIsFull(rowNumber);
+            }
+
+                
+            // Get new piece
             this._fallingPiece = this._nextPiece;
             this._nextPiece = randomTetrisPiece();
+            
             // If new piece has collision then end game
-        
             if(!this.checkValidPosition(this._fallingPiece.getPosition(), this._fallingPiece)){
                 this._endGame = true;
                 return;
