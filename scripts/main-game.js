@@ -20,10 +20,10 @@ class Point{
     }
 }
 
-function randomTetrisPiece(){
+function randomTetrisPiece(startingPoint){
     let pieceOptions = [TetrisIPiece, TetrisLPiece, 
         TetrisJPiece, TetrisTPiece, TetrisOPiece, TetrisSPiece, TetrisZPiece]
-    return new pieceOptions[Math.floor(Math.random() * pieceOptions.length)];
+    return new pieceOptions[Math.floor(Math.random() * pieceOptions.length)](startingPoint);
 }
 
 class GameLoop{
@@ -33,10 +33,12 @@ class GameLoop{
         this._endGame = false;
         this._grid = mainGrid;
         this._previewGrid = previewGrid;
-        this._fallingPiece = randomTetrisPiece();
-        this._nextPiece = randomTetrisPiece();
         this._gridHeight = this._grid.length;
         this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
+        // NOTE: Index vs length (off by one)
+        this._pieceStartPoint = new Point(Math.floor(this._gridWidth / 2)-1, 0)
+        this._fallingPiece = randomTetrisPiece(this._pieceStartPoint);
+        this._nextPiece = randomTetrisPiece(this._pieceStartPoint);
         this._currentScore = 0;
         this._scoreIncrement = 10;
         // Event Listener
@@ -205,7 +207,7 @@ class GameLoop{
 
             // Get new piece
             this._fallingPiece = this._nextPiece;
-            this._nextPiece = randomTetrisPiece();
+            this._nextPiece = randomTetrisPiece(this._pieceStartPoint);
             
             // If new piece has collision then end game
             if(!this.checkValidPosition(this._fallingPiece.getPosition(), this._fallingPiece)){
@@ -233,7 +235,7 @@ class GameLoop{
         })
 
         // draw preview grid
-        this._nextPiece.getTakenPointsAndColour().forEach(usedPointAndColour => {
+        this._nextPiece.getTakenPointsAndColour(new Point(1,0)).forEach(usedPointAndColour => {
             let usedPoint = usedPointAndColour.position;
             let square = this._previewGrid[usedPoint.y][usedPoint.x];
             square.style.backgroundColor = usedPointAndColour.colour;
