@@ -12,7 +12,6 @@
 .main-grid{
     width: 300px;
     height: 600px;
-    background-color: grey;
     display: flex;
     flex-wrap: wrap;
 }
@@ -24,8 +23,8 @@
 .main-grid div{
     height: 30px;
     width: 30px;
-    background-color: aliceblue;
-    border-color: blue;
+    /* background-color: rgb(112,112,112, 0.1); */
+    border-color: rgb(112,112,112, 0.3);
     border-width: 1px;
     border-style: solid;
     box-sizing: border-box;
@@ -35,7 +34,6 @@
     margin-left: 20px;
     width: 120px;
     height: 120px;
-    background-color: grey;
     display: flex;
     flex-wrap: wrap;
 }
@@ -43,8 +41,8 @@
 .preview-grid div{
     height: 30px;
     width: 30px;
-    background-color: aliceblue;
-    border-color: blue;
+    /* background-color: rgb(112,112,112, 0.1); */
+    border-color: rgb(112,112,112, 0.3);
     border-width: 1px;
     border-style: solid;
     box-sizing: border-box;

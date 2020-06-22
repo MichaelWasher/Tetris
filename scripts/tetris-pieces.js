@@ -80,7 +80,7 @@ class TetrisPiece{
 }
 class TetrisLPiece extends TetrisPiece{
     getColour(){
-        return "red";
+        return "#7C9848";
     }
     getRotations()
     {
@@ -109,7 +109,7 @@ class TetrisLPiece extends TetrisPiece{
 }
 class TetrisJPiece extends TetrisPiece{
     getColour(){
-        return "blue";
+        return "#A783C6";
     }
     getRotations()
     {
@@ -139,7 +139,7 @@ class TetrisJPiece extends TetrisPiece{
 
 class TetrisTPiece extends TetrisPiece{
     getColour(){
-        return "orange";
+        return "#F0C808";
     }
     getRotations()
     {
@@ -169,7 +169,7 @@ class TetrisTPiece extends TetrisPiece{
 
 class TetrisSPiece extends TetrisPiece{
     getColour(){
-        return "black";
+        return "#66C4D9";
     }
     getRotations()
     {
@@ -188,7 +188,7 @@ class TetrisSPiece extends TetrisPiece{
 }
 class TetrisZPiece extends TetrisPiece{
     getColour(){
-        return "black";
+        return "#E64325";
     }
     getRotations()
     {
@@ -207,7 +207,7 @@ class TetrisZPiece extends TetrisPiece{
 }
 class TetrisOPiece extends TetrisPiece{
     getColour(){
-        return "blue";
+        return "#FFDE92";
     }
     getRotations()
     {
@@ -221,7 +221,7 @@ class TetrisOPiece extends TetrisPiece{
 }
 class TetrisIPiece extends TetrisPiece{
     getColour(){
-        return "red";
+        return "#6E8CD0";
     }
     getRotations()
     {
