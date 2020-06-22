@@ -27,7 +27,7 @@ function randomTetrisPiece(startingPoint){
 }
 
 class GameLoop{
-    constructor(scoreLabel, mainGrid, previewGrid){
+    constructor(scoreLabel, mainGrid, previewGrid, storageGrid){
         this._scoreLabel = scoreLabel;
         this._usedPointsAndColour = [];
         this._endGame = false;
@@ -39,6 +39,9 @@ class GameLoop{
         this._pieceStartPoint = new Point(Math.floor(this._gridWidth / 2)-1, 0)
         this._fallingPiece = randomTetrisPiece(this._pieceStartPoint);
         this._nextPiece = randomTetrisPiece(this._pieceStartPoint);
+        this._storedPiece = null;
+        this._storageGrid = storageGrid;
+
         this._currentScore = 0;
         this._scoreIncrement = 10;
         // Event Listener
@@ -216,6 +219,15 @@ class GameLoop{
             }
         }
     }
+    storePiece(piece = this._fallingPiece){
+        // Check for a currently stored piece and replace / evict elst just place
+        let tmp = this._storedPiece == null ? randomTetrisPiece(this._pieceStartPoint) : this._storedPiece;
+        
+        this._storedPiece = this._fallingPiece;
+        this._storedPiece.updatePosition(this._pieceStartPoint);
+
+        this._fallingPiece = tmp;
+    }
 
     // ----------- Drawing ----------- 
     redraw(){
@@ -241,6 +253,14 @@ class GameLoop{
             square.style.backgroundColor = usedPointAndColour.colour;
             square.classList.add("taken");
         })
+        if(this._storedPiece != null){
+            this._storedPiece.getTakenPointsAndColour(new Point(1,0)).forEach(usedPointAndColour => {
+                let usedPoint = usedPointAndColour.position;
+                let square = this._storageGrid[usedPoint.y][usedPoint.x];
+                square.style.backgroundColor = usedPointAndColour.colour;
+                square.classList.add("taken");
+            })
+        }
     }
 
     invalidate(){
@@ -251,6 +271,12 @@ class GameLoop{
             });
         });
         this._previewGrid.forEach(row => {
+            row.forEach(square => {
+                square.style.backgroundColor = "";
+                square.classList.remove("taken");
+            });
+        });
+        this._storageGrid.forEach(row => {
             row.forEach(square => {
                 square.style.backgroundColor = "";
                 square.classList.remove("taken");
@@ -269,7 +295,7 @@ class GameLoop{
     // ----------- Event Drivers ----------- 
     keyEventListener(event){
         let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
-        let SPACE_KEY = 32;
+        let SPACE_KEY = 32, SHIFT_KEY = 16;
         switch(event.keyCode)
         {
             case LEFT_KEY:
@@ -287,6 +313,10 @@ class GameLoop{
             case SPACE_KEY:
                 this.movePieceDrop(this._fallingPiece);
                 console.log("Space key pressed");
+                break;
+            case SHIFT_KEY:
+                this.storePiece(this._fallingPiece);
+                console.log("Shift key pressed");
                 break;
             default:
                 console.log(`Other key pressed ${event.keyCode}`);
@@ -343,9 +373,16 @@ document.addEventListener('DOMContentLoaded', () => {
         previewGrid.push(squares.splice(0,previewWidth ));
     }
 
+     // Load Store Grid
+     squares = Array.from(document.querySelectorAll(".storage-grid div"));
+     let storageGrid = [];
+     while(squares.length >= previewWidth ){
+        storageGrid.push(squares.splice(0,previewWidth ));
+     }
+
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    var game = new GameLoop(scoreLabel, grid, previewGrid);
+    var game = new GameLoop(scoreLabel, grid, previewGrid, storageGrid);
     // let startButton = document.querySelector("#start-button");
     // var game = null;
     // startButton.addEventListener('click', (event) => {
