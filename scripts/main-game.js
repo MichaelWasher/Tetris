@@ -43,24 +43,13 @@ class GameLoop{
             this.keyEventListener(event);
         });
     }
+    
     updateScore(newScore){
         console.log(`Score updated to ${newScore}`);
         this._scoreLabel.textContent = newScore;
     }
-    invalidate(){
-        this._grid.forEach(row => {
-            row.forEach(square => {
-                square.style.backgroundColor = "";
-                square.classList.remove("taken");
-            });
-        });
-        this._previewGrid.forEach(row => {
-            row.forEach(square => {
-                square.style.backgroundColor = "";
-                square.classList.remove("taken");
-            });
-        });
-    }
+
+    // ----------- Square Validity Checking ----------- 
     checkPieceCollisions(newPoints){
         // Compare current piece squares to all used
         let collisionPoints = this._usedPointsAndColour.map(pointAndColour => {
@@ -100,11 +89,9 @@ class GameLoop{
             return false;
         }
         return true;
-    }   
-    redraw(){
-        this.invalidate();
-        this.draw();
     }
+
+    // ----------- Piece Movement ----------- 
     movePieceDown(piece){
         let newPoint = piece.getPosition();
         newPoint.y++;
@@ -142,12 +129,6 @@ class GameLoop{
         piece.updatePosition(newPoint, this._grid);
         this.redraw()
     }
-    lockPiece(piece){
-        // Add used points to list
-        piece.setFalling(false);
-        this._usedPointsAndColour = this._usedPointsAndColour.concat(piece.getTakenPointsAndColour());
-        this._fallingPiece = null;
-    }
     movePieceRotate(piece){
         // Check new usef points are valid
         let rotatePoints = piece.getRotatePoints();
@@ -158,6 +139,15 @@ class GameLoop{
             this.redraw();
         }
     }
+
+    // ----------- Game Logic ----------- 
+    lockPiece(piece){
+        // Add used points to list
+        piece.setFalling(false);
+        this._usedPointsAndColour = this._usedPointsAndColour.concat(piece.getTakenPointsAndColour());
+        this._fallingPiece = null;
+    }
+
     update(){
         // IF no active piece or piece fails to move down create new piece
         //Move point down
@@ -180,6 +170,13 @@ class GameLoop{
             }
         }
     }
+
+    // ----------- Drawing ----------- 
+    redraw(){
+        this.invalidate();
+        this.draw();
+    }
+
     draw(){
         // draw all Tetris Pieces
         let drawPoints = this._usedPointsAndColour.concat(this._fallingPiece.getTakenPointsAndColour()).flat();
@@ -198,26 +195,31 @@ class GameLoop{
             square.classList.add("taken");
         })
     }
-    loop(){
-        console.log("Tetris iteration triggered");
-        this.invalidate();
-        this.update();
-        this.draw();
-        if(!this._endGame){
-            setTimeout(() => {
-                    this.loop.call(this);
-                }, 70); // TODO DEUB should be 1000. Setting for testing
-        }else{
-            this.invalidate();
-            alert("Game Over");
-        }
+
+    invalidate(){
+        this._grid.forEach(row => {
+            row.forEach(square => {
+                square.style.backgroundColor = "";
+                square.classList.remove("taken");
+            });
+        });
+        this._previewGrid.forEach(row => {
+            row.forEach(square => {
+                square.style.backgroundColor = "";
+                square.classList.remove("taken");
+            });
+        });
     }
+
+    // ----------- Game Control ----------- 
     startGame(){
         this.loop();
     }
     endGame(){
         this._endGame = true;
     }
+
+    // ----------- Event Drivers ----------- 
     keyEventListener(event){
         let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
         let SPACE_KEY = 32;
@@ -244,6 +246,21 @@ class GameLoop{
                 break;
         }
     }
+    loop(){
+        console.log("Tetris iteration triggered");
+        this.invalidate();
+        this.update();
+        this.draw();
+        if(!this._endGame){
+            setTimeout(() => {
+                    this.loop.call(this);
+                }, 70); // TODO DEUB should be 1000. Setting for testing
+        }else{
+            this.invalidate();
+            alert("Game Over");
+        }
+    }
+
 
 }
 
