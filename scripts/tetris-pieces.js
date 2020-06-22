@@ -11,9 +11,9 @@ class TetrisPiece{
         this._colour = this.getColour();
         this._rotations = this.getRotations();
         this._currentRotation = 0;
-        this._totalRotations = 0;
+        this._totalRotations = this._rotations.length;
         this._falling = true;
-        this._kernel = this._rotations[0];
+        this._kernel = this._rotations[this._currentRotation];
     }
     getWidth(){
         let max_x = this._kernel.reduce((total, num) => { return Math.max(total, num.x)}, 0) +1;
@@ -28,13 +28,19 @@ class TetrisPiece{
     getColour(){
         return "blue";
     }
+    getRotatePoints(){
+        let rotationIndex = (this._currentRotation + 1) % this._totalRotations; 
+        return this._rotations[rotationIndex]
+    }
     rotate(){
         this._currentRotation++;
         this._currentRotation %= this._totalRotations; 
+        this._kernel = this._rotations[this._currentRotation]
     }
     backRotate(){
         this._currentRotation--;
         this._currentRotation = Math.abs(this._currentRotation) % this._totalRotations;
+        this._kernel = this._rotations[this._currentRotation]
     }
     update(){
         if(this._falling){
@@ -51,9 +57,7 @@ class TetrisPiece{
         this._falling = isFalling;
     }
     updatePosition(newPoint, grid){
-        this.invalidate(grid);
         this._currentPosition = newPoint;
-        this.draw(grid);
     }
     getTakenPoints(position = this._currentPosition){
         return this._kernel.map(kernelPoint => {
@@ -62,19 +66,11 @@ class TetrisPiece{
             return new Point(xPoint, yPoint);
         });
     }
-    draw(grid){
-        this.getTakenPoints().forEach(kernelPoint => {
-            let square = grid[kernelPoint.y][kernelPoint.x];
-            square.style.backgroundColor = this._colour;
-            square.classList.add("taken");
-        });
-    }
-    invalidate(grid){
-        //Undraw 
-        this.getTakenPoints().forEach(kernelPoint => {
-            let square = grid[kernelPoint.y][kernelPoint.x];
-            square.style.backgroundColor = "";
-            square.classList.remove("taken");
+    getTakenPointsAndColour(position = this._currentPosition){
+        return this._kernel.map(kernelPoint => {
+            let xPoint = kernelPoint.x + position.x;
+            let yPoint = kernelPoint.y + position.y;
+            return { position: new Point(xPoint, yPoint), colour: this._colour};
         });
     }
 }

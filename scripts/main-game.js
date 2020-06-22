@@ -1,4 +1,5 @@
 // TODO convert into module and inlcude other js files
+// TODO Check for Fill Row
 
 'use strict'; 
 
@@ -28,10 +29,10 @@ function randomTetrisPiece(){
 class GameLoop{
     constructor(scoreLabel, grid){
         this._scoreLabel = scoreLabel;
-        this._tetrisPieces = [];
+        this._usedPointsAndColour = [];
         this._endGame = false;
         this._grid = grid;
-        this._fallingPiece = null;
+        this._fallingPiece = randomTetrisPiece();
         this._gridHeight = this._grid.length;
         this._gridWidth =  (this._grid.length > 0 ? this._grid[0].length : 0);
 
@@ -53,19 +54,11 @@ class GameLoop{
         });
     }
     checkPieceCollisions(nextPoint, piece){
+        // Compare current piece squares to all used
         let newPoints = piece.getTakenPoints(nextPoint);
-
-        // Ignore current squares
-        let collisionPoints = this._tetrisPieces.map(piece => { 
-            if (!piece.getFalling()) 
-                return piece.getTakenPoints()
-            }).flat().filter(x => { 
-                return (x != null && x != undefined) 
-            });
-        
-        //TODO Filter Unique Points
-        // collisionPoints = new Set(collisionPoints);
-
+        let collisionPoints = this._usedPointsAndColour.map(pointAndColour => {
+            return pointAndColour.position;
+        });
         let collision = collisionPoints.some(usedPoint =>{
             return newPoints.some(newPoint => {
                 if(newPoint.equals(usedPoint)){
@@ -77,22 +70,32 @@ class GameLoop{
         return collision;
 
     }
-    checkValidPosition(position, piece){
-        let width = piece.getWidth();
-        let height = piece.getHeight();
-        // Check edges
-        if(position.x < 0 || position.x + width > this._gridWidth){
+    checkInvalidPoints(allPositions){
+        var failedBoundaries = allPositions.some(position => {
+            // NOTE: As piecewidths are not used, comparisons are between index 
+            // and length (off by 1 issues)
+            if(position.x < 0 || position.x > this._gridWidth-1){
+                return true;
+            }
+            if(position.y < 0 || position.y > this._gridHeight-1){
+                return true;
+            }
             return false;
-        }
-        if(position.y < 0 || position.y + height > this._gridHeight){
-            return false;
-        }
-        // Check other pieces
-        if(this.checkPieceCollisions(position, piece)){
+        });
+        return failedBoundaries;
+    }
+    checkValidPosition(position, piece){      
+        var invalidPoints = this.checkInvalidPoints(piece.getTakenPoints(position));
+        // Check if not a valid position or collision
+        if(invalidPoints || this.checkPieceCollisions(position, piece)){
             return false;
         }
         return true;
     }   
+    redraw(){
+        this.invalidate();
+        this.draw();
+    }
     movePieceDown(piece){
         let newPoint = piece.getPosition();
         newPoint.y++;
@@ -101,6 +104,7 @@ class GameLoop{
             return false;
         }
         piece.updatePosition(newPoint, this._grid);
+        this.redraw()
         return true;
     }
     movePieceRight(piece){
@@ -108,6 +112,7 @@ class GameLoop{
         newPoint.x++;
         if(this.checkValidPosition(newPoint, piece)){
             piece.updatePosition(newPoint, this._grid);
+            this.redraw()
         }
     }
     movePieceLeft(piece){
@@ -115,23 +120,53 @@ class GameLoop{
         newPoint.x--;
         if(this.checkValidPosition(newPoint, piece)){
             piece.updatePosition(newPoint, this._grid);
+            this.redraw()
+        }
+    }
+    lockPiece(piece){
+        // Add used points to list
+        piece.setFalling(false);
+        this._usedPointsAndColour = this._usedPointsAndColour.concat(piece.getTakenPointsAndColour());
+        this._fallingPiece = null;
+    }
+    movePieceRotate(piece){
+        // Check new usef points are valid
+        let rotatePoints = piece.getRotatePoints();
+        if(!this.checkInvalidPoints(rotatePoints)){
+            piece.rotate();
+            this.redraw();
         }
     }
     update(){
         // IF no active piece or piece fails to move down create new piece
-        if(this._fallingPiece == null || !this.movePieceDown(this._fallingPiece)){
+        //Move point down
+        let newPoint = this._fallingPiece.getPosition();
+        newPoint.y++;
+
+        // If valid move
+        if(this.checkValidPosition(newPoint, this._fallingPiece)){
+            this._fallingPiece.updatePosition(newPoint, this._grid);
+            
+        }else{ // if invalid
+            this.lockPiece(this._fallingPiece);
             this._fallingPiece = randomTetrisPiece();
             // If new piece has collision then end game
+        
             if(!this.checkValidPosition(this._fallingPiece.getPosition(), this._fallingPiece)){
                 this._endGame = true;
                 return;
             }
-            this._tetrisPieces.push(this._fallingPiece);
         }
     }
     draw(){
-        // Draw all Tetris Pieces
-        this._tetrisPieces.forEach(x => x.draw(this._grid));
+        // draw all Tetris Pieces
+        let drawPoints = this._usedPointsAndColour.concat(this._fallingPiece.getTakenPointsAndColour()).flat();
+        drawPoints.forEach(usedPointAndColour => {
+            let usedPoint = usedPointAndColour.position;
+            let square = this._grid[usedPoint.y][usedPoint.x];
+            square.style.backgroundColor = usedPointAndColour.colour;
+            square.classList.add("taken");
+        })
     }
     loop(){
         console.log("Tetris iteration triggered");
@@ -159,11 +194,15 @@ class GameLoop{
         {
             case LEFT_KEY:
                 this.movePieceLeft(this._fallingPiece);
-                console.log("Right key pressed");
+                console.log("Left key pressed");
                 break;
             case RIGHT_KEY:
                 this.movePieceRight(this._fallingPiece);
-                console.log("Left key pressed");
+                console.log("Right key pressed");
+                break;
+            case UP_KEY:
+                this.movePieceRotate(this._fallingPiece);
+                console.log("Up key pressed");
                 break;
             default:
                 console.log("Other key pressed");
@@ -200,24 +239,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    // var game = new GameLoop(scoreLabel, grid);
-    let startButton = document.querySelector("#start-button");
-    var game = null;
-    startButton.addEventListener('click', (event) => {
-        if (game == null){
-            game = new GameLoop(scoreLabel, grid);
-            game.startGame();
-        }
-    })
+    var game = new GameLoop(scoreLabel, grid);
+    // let startButton = document.querySelector("#start-button");
+    // var game = null;
+    // startButton.addEventListener('click', (event) => {
+    //     if (game == null){
+    //         game = new GameLoop(scoreLabel, grid);
+    //         game.startGame();
+    //     }
+    // })
      
-    let stopButton = document.querySelector("#reset-button");
-    stopButton.addEventListener('click', (event) => {
-        if (game != null){
-            game.endGame();
-            game = null;
-        }
-    })
-    // game.startGame();
+    // let stopButton = document.querySelector("#reset-button");
+    // stopButton.addEventListener('click', (event) => {
+    //     if (game != null){
+    //         game.endGame();
+    //         game = null;
+    //     }
+    // })
+    game.startGame();
 
     // // Test Game UI
     // let testPieces = [
