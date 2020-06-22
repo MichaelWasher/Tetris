@@ -28,9 +28,13 @@ class TetrisPiece{
     getColour(){
         return "blue";
     }
-    getRotatePoints(){
+    getRotatePoints(position = this._currentPosition){
         let rotationIndex = (this._currentRotation + 1) % this._totalRotations; 
-        return this._rotations[rotationIndex]
+        return this._rotations[rotationIndex].map(kernelPoint => {
+            let xPoint = kernelPoint.x + position.x;
+            let yPoint = kernelPoint.y + position.y;
+            return new Point(xPoint, yPoint);
+        });
     }
     rotate(){
         this._currentRotation++;

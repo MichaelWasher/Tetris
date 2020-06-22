@@ -61,9 +61,8 @@ class GameLoop{
             });
         });
     }
-    checkPieceCollisions(nextPoint, piece){
+    checkPieceCollisions(newPoints){
         // Compare current piece squares to all used
-        let newPoints = piece.getTakenPoints(nextPoint);
         let collisionPoints = this._usedPointsAndColour.map(pointAndColour => {
             return pointAndColour.position;
         });
@@ -94,8 +93,10 @@ class GameLoop{
     }
     checkValidPosition(position, piece){      
         var invalidPoints = this.checkInvalidPoints(piece.getTakenPoints(position));
+        var collision = this.checkPieceCollisions(piece.getTakenPoints(position));
+
         // Check if not a valid position or collision
-        if(invalidPoints || this.checkPieceCollisions(position, piece)){
+        if(invalidPoints || collision){
             return false;
         }
         return true;
@@ -150,7 +151,9 @@ class GameLoop{
     movePieceRotate(piece){
         // Check new usef points are valid
         let rotatePoints = piece.getRotatePoints();
-        if(!this.checkInvalidPoints(rotatePoints)){
+        var invalidPoints = this.checkInvalidPoints(rotatePoints);
+        var collision = this.checkPieceCollisions(rotatePoints);
+        if(!invalidPoints && !collision){
             piece.rotate();
             this.redraw();
         }
