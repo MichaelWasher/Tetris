@@ -123,6 +123,16 @@ class GameLoop{
             this.redraw()
         }
     }
+    movePieceDrop(piece){
+        // Work out next drop piece
+        let newPoint = piece.getPosition();
+        while(this.checkValidPosition(newPoint, piece)){
+            newPoint.y++;
+        }
+        newPoint.y--;
+        piece.updatePosition(newPoint, this._grid);
+        this.redraw()
+    }
     lockPiece(piece){
         // Add used points to list
         piece.setFalling(false);
@@ -190,6 +200,7 @@ class GameLoop{
     }
     keyEventListener(event){
         let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
+        let SPACE_KEY = 32;
         switch(event.keyCode)
         {
             case LEFT_KEY:
@@ -204,8 +215,12 @@ class GameLoop{
                 this.movePieceRotate(this._fallingPiece);
                 console.log("Up key pressed");
                 break;
+            case SPACE_KEY:
+                this.movePieceDrop(this._fallingPiece);
+                console.log("Space key pressed");
+                break;
             default:
-                console.log("Other key pressed");
+                console.log(`Other key pressed ${event.keyCode}`);
                 break;
         }
     }
