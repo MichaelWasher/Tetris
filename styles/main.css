@@ -1,3 +1,14 @@
+.container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.button-container{
+    width: 100%;
+    justify-content: center;
+    display:flex;
+    margin-top: 20px;
+}
 .main-grid{
     width: 300px;
     height: 600px;
@@ -5,8 +16,31 @@
     display: flex;
     flex-wrap: wrap;
 }
+.score-heading{
+    min-width: 100%;
+    text-align: center;
+}
 
 .main-grid div{
+    height: 30px;
+    width: 30px;
+    background-color: aliceblue;
+    border-color: blue;
+    border-width: 1px;
+    border-style: solid;
+    box-sizing: border-box;
+}
+
+.preview-grid{
+    margin-left: 20px;
+    width: 120px;
+    height: 120px;
+    background-color: grey;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-grid div{
     height: 30px;
     width: 30px;
     background-color: aliceblue;
