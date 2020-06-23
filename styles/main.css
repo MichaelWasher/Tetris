@@ -1,4 +1,7 @@
 .container{
+    background-image: url('../images/background.svg');
+    background-position: center;
+    background-repeat: repeat;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
