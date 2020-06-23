@@ -65,11 +65,24 @@
                 <button id="reset-button" class="button button_base button_rollover">Reset</button>
             </div>
         </div>
-        <div id="modal" class="modal">
+        <div id="start-game-modal" class="modal">
             <div class="modal-content">
-                <div class="modal-button-container">
+                <div class="modal-content-container">
                     <button id="start-button" class="button button_base button_rollover">Start</button>
                     <button id="scoreboard-button" class="button button_base button_rollover">Scoreboard</button>
+                </div>
+            </div>
+        </div>
+        <div id="end-game-modal" class="modal display-none">
+            <div class="modal-content">
+                <div class="modal-content-container">
+                    <h2>You scored: <span id="final-score">0</span></h2>
+                    <h3>Save this score?</h3>
+                    <input type="text" placeholder="name" />
+                    <div class="button-container">
+                        <button id="save-score-button" class="button button_base button_rollover">Save</button>
+                        <button id="retry-button" class="button button_base button_rollover">Retry</button>
+                    </div>
                 </div>
             </div>
         </div>

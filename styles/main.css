@@ -69,7 +69,7 @@
     box-sizing: border-box;
 }
 .game-logo {
-    z-index: 100;
+    z-index: 10;
     margin-top: 1rem;
     height: 5rem;
 }
@@ -141,14 +141,36 @@
     /* border: 1px solid #888; */
     width: fit-content; /* Could be more or less, depending on screen size */
 }
-.modal-button-container{
+.modal-content h3, .modal-content h2 {
+    align-content: center;
+    text-align: center;
+}
+.modal-content h2:first-child {
+    margin-bottom: 0px;
+}
+.modal-content h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.modal-content input[type='text'] {
+    height: 2rem;
+    text-align: center;
+}
+#end-game-modal{
+    z-index: 12;
+}
+#end-game-modal .modal-content {
+    background-color: #FFF;
+}
+.modal-content-container{
     width: 100%;
     justify-content: center;
     margin-top: 1rem;
     flex-direction: column;
     display: flex;
+    align-items: center;
 }
-.modal-button-container .button{
+#start-game-modal .modal-content-container .button{
     margin: 0;
     margin-bottom: 0.5rem;
     width: 15rem;
@@ -178,6 +200,7 @@
 .controls-pane hr{
     width: 15rem;
     border-color: rgb(112,112,112, 0.3);
+    border-top: 1px;
 
 }
 .controls-pane h3{

@@ -27,8 +27,8 @@ function randomTetrisPiece(startingPoint){
 }
 
 class GameLoop{
-    constructor(scoreLabel, mainGrid, previewGrid, storageGrid){
-        this._scoreLabel = scoreLabel;
+    constructor(scoreLabels, mainGrid, previewGrid, storageGrid){
+        this._scoreLabels = scoreLabels;
         this._usedPointsAndColour = [];
         this._endGame = false;
         this._grid = mainGrid;
@@ -44,6 +44,8 @@ class GameLoop{
         this._paused = false;
         this._currentScore = 0;
         this._scoreIncrement = 10;
+        this._activeTimerJob = null;
+
         // Event Listener
         document.addEventListener('keyup', event => {
             this.keyEventListener(event);
@@ -52,7 +54,8 @@ class GameLoop{
     
     updateScore(newScore){
         console.log(`Score updated to ${newScore}`);
-        this._scoreLabel.textContent = newScore;
+        this._scoreLabels.forEach(label => label.textContent = newScore);
+
     }
 
     // ----------- Square Validity Checking ----------- 
@@ -299,7 +302,17 @@ class GameLoop{
     endGame(){
         this._endGame = true;
     }
-
+    resetGame(){
+        console.log("Game reset.");
+        this._fallingPiece = randomTetrisPiece(this._pieceStartPoint);
+        this._nextPiece = randomTetrisPiece(this._pieceStartPoint);
+        this._storedPiece = null;
+        this._usedPointsAndColour = [];
+        this._currentScore = 0;
+        this._paused = false;
+        this._endGame = false;
+        this.loop();
+    }
     // ----------- Event Drivers ----------- 
     keyEventListener(event){
         const LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
@@ -354,12 +367,17 @@ class GameLoop{
         this.update();
         this.draw();
         if(!this._endGame){
-            setTimeout(() => {
+            if(this._activeTimerJob){
+                clearTimeout(this._activeTimerJob);
+            }
+            this._activeTimerJob = setTimeout(() => {
                     this.loop.call(this);
                 }, 70); // TODO DEUB should be 1000. Setting for testing
         }else{
             this.invalidate();
-            alert("Game Over");
+            // Perform End Game actions
+            let endGameModal = document.querySelector('#end-game-modal');
+            endGameModal.classList.remove('display-none');
         }
     }
 
@@ -393,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const storageGridParent = document.querySelector(".storage-grid");
     const previewGridParent = document.querySelector(".preview-grid");
 
-    let scoreLabel = document.querySelector("#current-score");    
+    let scoreLabels = [ document.querySelector("#current-score"), document.querySelector('#final-score') ]
 
     //Build squares
     let mainGrid = buildGrid(width, height, mainGridParent);
@@ -405,18 +423,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    // var game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
+    // var game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid); 
     let startButton = document.querySelector("#start-button");
     var game = null;
     startButton.addEventListener('click', (event) => {
         console.log("Start Game button clicked. Starting Game.");
         // Remove the modal
-        document.querySelector(".modal").classList.add("display-none");
+        document.querySelector("#start-game-modal").classList.add("display-none");
         // Display Stop/Reset Buttons
         document.querySelector(".button-container").classList.remove("display-none");
 
         if (game == null){
-            game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
+            game = new GameLoop(scoreLabels, mainGrid, previewGrid, storageGrid);
             game.startGame();
         }
     })
@@ -431,11 +449,11 @@ document.addEventListener('DOMContentLoaded', () => {
     resetButton.addEventListener('click', (event) => {
         console.log("Reset button clicked. Resetting the game.");
         if (game != null){
-            game.endGame();
-            game = null;
+            game.resetGame();
+        }else{
+            game = new GameLoop(scoreLabels, mainGrid, previewGrid, storageGrid);
+            game.startGame();
         }
-        game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
-        game.startGame();
     });
 
     let pauseButton = document.querySelector("#pause-button");
@@ -443,6 +461,25 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Pause button clicked. Toggling the game.");
         if (game != null) {
             game.togglePaused();
+        }
+    });
+    let saveScoreButton = document.querySelector("#save-score-button");
+    saveScoreButton.addEventListener('click', (event) => {
+        console.log("Save score button clicked. Saving the score.");
+        alert("This functionality is not currently provided in the game.");
+    });
+    
+    let retryButton = document.querySelector("#retry-button");
+    retryButton.addEventListener('click', (event) => {
+        //Remove overlay
+        document.querySelector("#end-game-modal").classList.add('display-none');
+        //restart game
+        console.log("Retry button clicked. Resetting the game.");
+        if (game != null){
+            game.resetGame();
+        }else{
+            game = new GameLoop(scoreLabels, mainGrid, previewGrid, storageGrid);
+            game.startGame();
         }
     });
 
