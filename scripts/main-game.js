@@ -41,7 +41,7 @@ class GameLoop{
         this._nextPiece = randomTetrisPiece(this._pieceStartPoint);
         this._storedPiece = null;
         this._storageGrid = storageGrid;
-
+        this._paused = false;
         this._currentScore = 0;
         this._scoreIncrement = 10;
         // Event Listener
@@ -99,6 +99,8 @@ class GameLoop{
 
     // ----------- Piece Movement ----------- 
     movePieceDown(piece){
+        //TODO Investigate if used
+
         let newPoint = piece.getPosition();
         newPoint.y++;
         if(!this.checkValidPosition(newPoint, piece)){
@@ -153,6 +155,9 @@ class GameLoop{
         this._usedPointsAndColour = this._usedPointsAndColour.concat(piece.getTakenPointsAndColour());
         this._fallingPiece = null;
     }
+    togglePaused(){
+        this._paused = !this._paused;
+    }
     // Check for Full
     checkRowIsFull(rowNumber = this._gridHeight-1){
         // NOTE: INDEX vs Length (off by one issue)
@@ -180,6 +185,9 @@ class GameLoop{
         return false;
     }
     update(){
+        if(this._paused){
+            return;
+        }
         // IF no active piece or piece fails to move down create new piece
         //Move point down
         let newPoint = this._fallingPiece.getPosition();
@@ -294,8 +302,25 @@ class GameLoop{
 
     // ----------- Event Drivers ----------- 
     keyEventListener(event){
-        let LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
-        let SPACE_KEY = 32, SHIFT_KEY = 16;
+        const LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
+        const SPACE_KEY = 32, SHIFT_KEY = 16;
+        const P_KEY = 80;
+
+        // Control Flow Keys
+        switch(event.keyCode)
+        {
+            case P_KEY:
+                this.togglePaused();
+                console.log("P key pressed. Pausing...");
+                break;
+            default:
+                console.log(`Other key pressed ${event.keyCode}`);
+                break;
+        }
+        if(this._paused){
+            return;
+        }
+        //Movement Keys
         switch(event.keyCode)
         {
             case LEFT_KEY:
@@ -384,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let startButton = document.querySelector("#start-button");
     var game = null;
     startButton.addEventListener('click', (event) => {
+        console.log("Start Game button clicked. Starting Game.");
         // Remove the modal
         document.querySelector(".modal").classList.add("display-none");
         // Display Stop/Reset Buttons
@@ -397,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Scoreboard button
     let scoreboardButton = document.querySelector("#scoreboard-button");
     scoreboardButton.addEventListener('click', (event) => {
+        console.log("Scoreboard button clicked. Gathering scoreboard.");
         alert("This function has not been implemented yet.");
     })
     
@@ -411,14 +438,14 @@ document.addEventListener('DOMContentLoaded', () => {
         game.startGame();
     });
 
-     
-    // let stopButton = document.querySelector("#reset-button");
-    // stopButton.addEventListener('click', (event) => {
-    //     if (game != null){
-    //         game.endGame();
-    //         game = null;
-    //     }
-    // })
+    let pauseButton = document.querySelector("#pause-button");
+    pauseButton.addEventListener('click', (event) => {
+        console.log("Pause button clicked. Toggling the game.");
+        if (game != null) {
+            game.togglePaused();
+        }
+    });
+
     // game.startGame();
 
     // // Test Game UI
