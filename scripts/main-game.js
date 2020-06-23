@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //         game = null;
     //     }
     // })
-    game.startGame();
+    // game.startGame();
 
     // // Test Game UI
     // let testPieces = [
@@ -413,4 +413,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Test Update Score
     // game.updateScore(20);
 
-})
+});

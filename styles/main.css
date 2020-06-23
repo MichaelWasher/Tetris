@@ -68,7 +68,8 @@
     border-style: solid;
     box-sizing: border-box;
 }
-.gameLogo {
+.game-logo {
+    z-index: 100;
     margin-top: 1rem;
     height: 5rem;
 }
@@ -101,7 +102,7 @@
 
 .button_rollover:hover {
     color: #ffffff;
-    background-color: rgb(112,112,112, 0.3);
+    background-color: rgb(212,212,212);
 }
 
 /* Button Spacing */
@@ -115,4 +116,45 @@
 }
 .button-container .button_base:last-child{
     margin-right: 0;
+}
+.button-container{
+    display: none;
+}
+
+/* Starting Modal */
+.modal {
+    display: flex; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #FFF; /* Fallback color */
+    background-color: rgba(255,255,255,0.4); /* Black w/ opacity */
+}
+  
+  /* Modal Content/Box */
+  .modal-content {
+    /* background-color: #fefefe; */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 10rem 15rem;
+    /* border: 1px solid #888; */
+    width: fit-content; /* Could be more or less, depending on screen size */
+}
+.modal-button-container{
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+    flex-direction: column;
+    display: flex;
+}
+.modal-button-container .button{
+    margin: 0;
+    margin-bottom: 0.5rem;
+    width: 15rem;
+    height: 5rem;
 }

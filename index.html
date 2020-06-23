@@ -12,25 +12,34 @@
     </head>
     <body>
         <div class="container">
-            <img class="gameLogo" src="images/tetris-logo.png">
+            <img class="game-logo" src="images/tetris-logo.png">
             <h2 class="score-heading">Score: <span id="current-score">10</span></h2>
             <div class="main-grid"></div>
-            <div class="secondary-column-marker"><div class="secondary-column">
-                <div class="preview-grid-container secondary-grid-container">
-                    <h3>Next</h3>
-                    <div class="preview-grid secondary-grid"></div>
+            <div class="secondary-column-marker">
+                <div class="secondary-column">
+                    <div class="preview-grid-container secondary-grid-container">
+                        <h3>Next</h3>
+                        <div class="preview-grid secondary-grid"></div>
+                    </div>
+                    <div class="storage-grid-container secondary-grid-container">
+                        <h3>Store</h3>
+                        <div class="storage-grid secondary-grid"></div>
+                    </div>
                 </div>
-                <div class="storage-grid-container secondary-grid-container">
-                    <h3>Store</h3>
-                    <div class="storage-grid secondary-grid"></div>
-                </div>
-            </div></div>
+            </div>
         
             <div class="button-container">
                 <button id="stop-button" class="button button_base button_rollover">Stop</button>
                 <button id="reset-button" class="button button_base button_rollover">Reset</button>
             </div>
         </div>
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-button-container">
+                    <button id="start-button" class="button button_base button_rollover">Start</button>
+                    <button id="score-button" class="button button_base button_rollover">Scoreboard</button>
+                </div>
+            </div>
 
     </body>
 </html>
