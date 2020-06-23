@@ -341,48 +341,46 @@ class GameLoop{
 
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const width = 10;
-    const height = 20;
-    const previewWidth = 4;
-    // Find Squares and Grid
-    const gameGrid = document.querySelector(".main-grid");
-    let scoreLabel = document.querySelector("#current-score");    
 
+function buildGrid(width, height, parent){
     //Build squares
-    var div = document.createElement("div");
     for(let i = 0; i < width * height; i++){
-        gameGrid.appendChild(document.createElement("div"));    
+        parent.appendChild(document.createElement("div"));    
     }
 
-    let squares = Array.from(document.querySelectorAll(".main-grid div"));
+    let squares = Array.from(parent.querySelectorAll("div"));
     let grid = [];
     //Split squares into a grid
     // NOTE: This is loaded into [y][x] order instead of x,y
     while(squares.length >= width){
         grid.push(squares.splice(0,width));
     }
+    return grid;
+}
 
-    console.log(`Found Grid ${squares.length} squares in the grid.`);
-    console.log(`Grid populated with ${grid.length} rows`);
+document.addEventListener('DOMContentLoaded', () => {
+    const width = 10;
+    const height = 20;
+    const secondaryWidth = 4;
+    const secondaryHeight = 4;
+    // Find Squares and Grid
+    const mainGridParent = document.querySelector(".main-grid");
+    const storageGridParent = document.querySelector(".storage-grid");
+    const previewGridParent = document.querySelector(".preview-grid");
 
-    // Load Preview Grid
-    squares = Array.from(document.querySelectorAll(".preview-grid div"));
-    let previewGrid = [];
-    while(squares.length >= previewWidth ){
-        previewGrid.push(squares.splice(0,previewWidth ));
-    }
+    let scoreLabel = document.querySelector("#current-score");    
 
-     // Load Store Grid
-     squares = Array.from(document.querySelectorAll(".storage-grid div"));
-     let storageGrid = [];
-     while(squares.length >= previewWidth ){
-        storageGrid.push(squares.splice(0,previewWidth ));
-     }
+    //Build squares
+    let mainGrid = buildGrid(width, height, mainGridParent);
+    let storageGrid = buildGrid(secondaryWidth, secondaryHeight, storageGridParent);
+    let previewGrid = buildGrid(secondaryWidth, secondaryHeight, previewGridParent);
+
+    console.log(`Main Grid width: ${width}.`);
+    console.log(`Main Grid height: ${height}`);
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    var game = new GameLoop(scoreLabel, grid, previewGrid, storageGrid);
+    var game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
     // let startButton = document.querySelector("#start-button");
     // var game = null;
     // startButton.addEventListener('click', (event) => {
