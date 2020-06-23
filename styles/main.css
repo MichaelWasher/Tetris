@@ -32,7 +32,25 @@
     border-style: solid;
     box-sizing: border-box;
 }
-
+.secondary-column-marker{
+    position: relative; 
+    width: 0; 
+    height: 0;
+}
+.secondary-column{
+    width: 8rem;
+    display: flex;
+    flex-direction: column ;
+    flex-wrap: wrap;
+}
+.secondary-grid-container{
+    width: auto;
+}
+.secondary-grid-container h3{
+    text-align: center;
+    margin-top: 0rem;
+}
+    
 .secondary-grid{
     margin-left: 1rem;
     width: 8rem;
@@ -54,11 +72,47 @@
     margin-top: 1rem;
     height: 5rem;
 }
-.secondary-grid-container{
-    width: auto;
 
-}
-.secondary-grid-container h3{
+/* Rollover Buttons */
+.button_base {
+    font-size: 1.1rem;
+    top: 50%;
+    left: 50%;
+    width: 10rem;
+    height: 3rem;
     text-align: center;
-    margin-top: 0rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-user-select: none;
+    cursor: default;
+}
+
+.button_base:hover {
+    cursor: pointer;
+}
+
+.button_rollover {
+    color: rgb(112,112,112);
+    border: rgb(112,112,112, 0.7) solid 1px;
+    padding: 0.8rem;
+    background-color: #ffffff;
+}
+
+.button_rollover:hover {
+    color: #ffffff;
+    background-color: rgb(112,112,112, 0.3);
+}
+
+/* Button Spacing */
+
+.button-container .button_base{
+    margin-left: 0.5rem;
+}
+
+.button-container .button_base:first-child{
+    margin-left: 0;
+}
+.button-container .button_base:last-child{
+    margin-right: 0;
 }
