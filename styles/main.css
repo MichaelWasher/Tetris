@@ -106,7 +106,6 @@
 }
 
 /* Button Spacing */
-
 .button-container .button_base{
     margin-left: 0.5rem;
 }
@@ -116,9 +115,6 @@
 }
 .button-container .button_base:last-child{
     margin-right: 0;
-}
-.button-container{
-    display: none;
 }
 
 /* Starting Modal */
@@ -157,4 +153,8 @@
     margin-bottom: 0.5rem;
     width: 15rem;
     height: 5rem;
+}
+
+.display-none{
+    display: none;
 }

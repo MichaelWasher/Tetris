@@ -380,15 +380,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configure and Start the Game Loop
     // scoreLabel.textContent = 20;
-    var game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
-    // let startButton = document.querySelector("#start-button");
-    // var game = null;
-    // startButton.addEventListener('click', (event) => {
-    //     if (game == null){
-    //         game = new GameLoop(scoreLabel, grid);
-    //         game.startGame();
-    //     }
-    // })
+    // var game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
+    let startButton = document.querySelector("#start-button");
+    var game = null;
+    startButton.addEventListener('click', (event) => {
+        // Remove the modal
+        document.querySelector(".modal").classList.add("display-none");
+        // Display Stop/Reset Buttons
+        document.querySelector(".button-container").classList.remove("display-none");
+
+        if (game == null){
+            game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
+            game.startGame();
+        }
+    })
+    // Scoreboard button
+    let scoreboardButton = document.querySelector("#scoreboard-button");
+    scoreboardButton.addEventListener('click', (event) => {
+        alert("This function has not been implemented yet.");
+    })
      
     // let stopButton = document.querySelector("#reset-button");
     // stopButton.addEventListener('click', (event) => {
@@ -413,4 +423,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Test Update Score
     // game.updateScore(20);
 
+
 });
+
