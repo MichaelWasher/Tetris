@@ -158,3 +158,47 @@
 .display-none{
     display: none;
 }
+.controls-pane-marker{
+    display:block;
+    position: relative;
+    width: 1;
+    height: 1;
+}
+.controls-pane{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: -16rem;
+    width: 15rem;
+    height: fit-content;
+    border: solid 1px;
+    border-color: rgb(112,112,112, 0.3);
+}
+.controls-pane hr{
+    width: 15rem;
+    border-color: rgb(112,112,112, 0.3);
+
+}
+.controls-pane h3{
+    text-align: center;
+    margin-bottom: 0.4rem;
+
+}
+.controls-pane ul{
+    list-style-type: none;
+    padding: 0;
+}
+.controls-pane ul li {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.controls-pane ul li .left-item{
+    text-align: center;
+    margin-left: 2rem;
+}
+.controls-pane ul li .right-item{
+    text-align: center; 
+    margin-right: 2rem;
+}
