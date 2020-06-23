@@ -399,6 +399,18 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreboardButton.addEventListener('click', (event) => {
         alert("This function has not been implemented yet.");
     })
+    
+    let resetButton = document.querySelector("#reset-button");
+    resetButton.addEventListener('click', (event) => {
+        console.log("Reset button clicked. Resetting the game.");
+        if (game != null){
+            game.endGame();
+            game = null;
+        }
+        game = new GameLoop(scoreLabel, mainGrid, previewGrid, storageGrid);
+        game.startGame();
+    });
+
      
     // let stopButton = document.querySelector("#reset-button");
     // stopButton.addEventListener('click', (event) => {
