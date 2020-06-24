@@ -1,3 +1,6 @@
+body{
+    font: 13.3333px Arial;
+}
 .container{
     background-image: url('../images/background.svg');
     background-position: center;

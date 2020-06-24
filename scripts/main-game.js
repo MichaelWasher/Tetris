@@ -477,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     retryButton.addEventListener('click', (event) => {
         //Remove overlay
         document.querySelector("#end-game-modal").classList.add('display-none');
+        document.querySelector("#score-user-input").value = "";
         //restart game
         console.log("Retry button clicked. Resetting the game.");
         if (game != null){
