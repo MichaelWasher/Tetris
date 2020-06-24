@@ -245,7 +245,14 @@ class GameLoop{
         this.invalidate();
         this.draw();
     }
-
+    drawPiece(position, piece, grid){
+        piece.getTakenPointsAndColour(position).forEach(usedPointAndColour => {
+            let usedPoint = usedPointAndColour.position;
+            let square = grid[usedPoint.y][usedPoint.x];
+            square.style.backgroundColor = usedPointAndColour.colour;
+            square.classList.add("taken");
+        })
+    }
     draw(){
         this.updateScore(this._currentScore)
         // draw all Tetris Pieces
@@ -258,19 +265,20 @@ class GameLoop{
         })
 
         // draw preview grid
-        this._nextPiece.getTakenPointsAndColour(new Point(1,0)).forEach(usedPointAndColour => {
-            let usedPoint = usedPointAndColour.position;
-            let square = this._previewGrid[usedPoint.y][usedPoint.x];
-            square.style.backgroundColor = usedPointAndColour.colour;
-            square.classList.add("taken");
-        })
+
+        // Caluclate 1/2 of margin
+        var previewStartPointx = Math.floor((this._previewGrid[0].length - this._nextPiece.getWidth()) / 2);
+        var previewStartPointy = Math.floor((this._previewGrid.length - this._nextPiece.getHeight()) / 2);
+        var position = new Point(previewStartPointx,previewStartPointy);
+        this.drawPiece(position, this._nextPiece, this._previewGrid);
+        
+        //
         if(this._storedPiece != null){
-            this._storedPiece.getTakenPointsAndColour(new Point(1,0)).forEach(usedPointAndColour => {
-                let usedPoint = usedPointAndColour.position;
-                let square = this._storageGrid[usedPoint.y][usedPoint.x];
-                square.style.backgroundColor = usedPointAndColour.colour;
-                square.classList.add("taken");
-            })
+            var storedStartPointx = Math.floor((this._storageGrid[0].length - this._storedPiece.getWidth()) / 2);
+            var storedStartPointy = Math.floor((this._storageGrid.length - this._storedPiece.getHeight()) / 2);
+            var position = new Point(previewStartPointx,previewStartPointy);
+            this.drawPiece(new Point(storedStartPointx,storedStartPointy), 
+                    this._storedPiece, this._storageGrid);
         }
     }
 
