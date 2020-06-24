@@ -1,6 +1,3 @@
-// TODO convert into module and inlcude other js files
-// TODO Check for Fill Row
-
 'use strict'; 
 
 class Point{
@@ -45,10 +42,14 @@ class GameLoop{
         this._currentScore = 0;
         this._scoreIncrement = 10;
         this._activeTimerJob = null;
-
+        this._defaultLoopSpeed = 150;
+        this._loopSpeed = this._defaultLoopSpeed;
         // Event Listener
         document.addEventListener('keyup', event => {
-            this.keyEventListener(event);
+            this.keyUpEventListener(event);
+        });
+        document.addEventListener('keydown', event => {
+            this.keyDownEventListener(event);
         });
     }
     
@@ -322,8 +323,16 @@ class GameLoop{
         this._endGame = false;
         this.loop();
     }
+    increaseSpeed(){
+        this._loopSpeed = 50;
+        this.loop();
+    }
+    decreaseSpeed(){
+        this._loopSpeed = this._defaultLoopSpeed;
+        this.loop();
+    }
     // ----------- Event Drivers ----------- 
-    keyEventListener(event){
+    keyUpEventListener(event){
         const LEFT_KEY = 37, RIGHT_KEY = 39, UP_KEY = 38, DOWN_KEY = 40;
         const SPACE_KEY = 32, SHIFT_KEY = 16;
         const P_KEY = 80;
@@ -360,6 +369,10 @@ class GameLoop{
                 this.movePieceRotate(this._fallingPiece);
                 console.log("Up key pressed");
                 break;
+            case DOWN_KEY:
+                this.decreaseSpeed(this._fallingPiece);
+                console.log("Up key pressed");
+                break;
             case SPACE_KEY:
                 this.movePieceDrop(this._fallingPiece);
                 console.log("Space key pressed");
@@ -369,8 +382,21 @@ class GameLoop{
                 console.log("Shift key pressed");
                 break;
             default:
-                console.log(`Other key pressed ${event.keyCode}`);
+                console.log(`Other key released ${event.keyCode}`);
                 break;
+        }
+    }
+    keyDownEventListener(event){
+        const DOWN_KEY = 40;
+        switch(event.keyCode)
+        {
+            case DOWN_KEY:
+                this.increaseSpeed(this._fallingPiece);
+                console.log("Left key pressed");
+                break;
+            default:
+                console.log(`Other key pressed ${event.keyCode}`);
+                break;            
         }
     }
     loop(){
@@ -384,7 +410,7 @@ class GameLoop{
             }
             this._activeTimerJob = setTimeout(() => {
                     this.loop.call(this);
-                }, 70); // TODO DEUB should be 1000. Setting for testing
+                }, this._loopSpeed); // TODO DEUB should be 1000. Setting for testing
         }else{
             this.invalidate();
             // Perform End Game actions
