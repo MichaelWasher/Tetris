@@ -188,7 +188,7 @@ class GameLoop{
         return false;
     }
     update(){
-        if(this._paused){
+        if(this._paused || this._endGame){
             return;
         }
         // IF no active piece or piece fails to move down create new piece
@@ -301,6 +301,7 @@ class GameLoop{
     }
     endGame(){
         this._endGame = true;
+        this._endGame = true;
     }
     resetGame(){
         console.log("Game reset.");
@@ -319,6 +320,9 @@ class GameLoop{
         const SPACE_KEY = 32, SHIFT_KEY = 16;
         const P_KEY = 80;
 
+        if(this._endGame){
+            return;
+        }
         // Control Flow Keys
         switch(event.keyCode)
         {

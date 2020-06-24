@@ -17,6 +17,9 @@
     height: 40rem;
     display: flex;
     flex-wrap: wrap;
+        border-color: rgb(112,112,112);
+    border-width: 1px;
+    border-style: solid;
 }
 .score-heading{
     min-width: 100%;
@@ -26,9 +29,8 @@
 .main-grid div{
     height: 2rem;
     width: 2rem;
-    /* background-color: rgb(112,112,112, 0.1); */
     border-color: rgb(112,112,112, 0.3);
-    border-width: 1px;
+    border-width: 1px 1px 0px 0px;
     border-style: solid;
     box-sizing: border-box;
 }
@@ -45,28 +47,38 @@
 }
 .secondary-grid-container{
     width: auto;
+    margin-left: 1rem;
 }
 .secondary-grid-container h3{
     text-align: center;
     margin-top: 0rem;
+    margin-bottom: 0.5rem;
 }
     
 .secondary-grid{
-    margin-left: 1rem;
     width: 8rem;
     height: 8rem;
     display: flex;
     flex-wrap: wrap;
+    border: 1px;
+    border-style: solid;
+    border-color: rgb(112,112,112);
 }
 
 .secondary-grid div{
     height: 2rem;
     width: 2rem;
-    /* background-color: rgb(112,112,112, 0.1); */
     border-color: rgb(112,112,112, 0.3);
-    border-width: 1px;
+    border-width: 1px 1px 0px 0px;
     border-style: solid;
     box-sizing: border-box;
+}
+.secondary-column .secondary-grid-container{
+    margin-top: 0.5rem;
+}
+
+.secondary-column .secondary-grid-container:first-child{
+    margin-top: 0;
 }
 .game-logo {
     z-index: 10;
@@ -130,7 +142,7 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: #FFF; /* Fallback color */
-    background-color: rgba(255,255,255,0.4); /* Black w/ opacity */
+    background-color: rgba(255,255,255,0.8); /* Black w/ opacity */
 }
   
   /* Modal Content/Box */
@@ -159,9 +171,9 @@
 #end-game-modal{
     z-index: 12;
 }
-#end-game-modal .modal-content {
-    background-color: #FFF;
-}
+/* #end-game-modal .modal-content {
+    /* background-color: #FFF; 
+} */
 .modal-content-container{
     width: 100%;
     justify-content: center;
@@ -195,11 +207,11 @@
     width: 15rem;
     height: fit-content;
     border: solid 1px;
-    border-color: rgb(112,112,112, 0.3);
+    border-color: rgb(112,112,112);
 }
 .controls-pane hr{
     width: 15rem;
-    border-color: rgb(112,112,112, 0.3);
+    border-color: rgb(112,112,112);
     border-top: 1px;
 
 }
