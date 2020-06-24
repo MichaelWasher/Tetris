@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1987" height="1677.151" viewBox="0 0 1987 1677.151">
-  <g id="Background" transform="translate(-92 -363)">
-    <g id="Group_8" data-name="Group 8" transform="translate(1745 1425)" opacity="0.21">
+<svg xmlns="http://www.w3.org/2000/svg" width="2628" height="1677.151" viewBox="0 0 2628 1677.151">
+  <g id="Background" transform="translate(222 -363)">
+    <g id="Group_8" data-name="Group 8" transform="translate(-42 1569)" opacity="0.21">
       <g id="Rectangle_1" data-name="Rectangle 1" fill="#6e8cd0" stroke="#707070" stroke-width="1">
         <rect width="35" height="35" stroke="none"/>
         <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
@@ -54,7 +54,7 @@
         <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
       </g>
     </g>
-    <g id="Group_13" data-name="Group 13" transform="translate(2010.092 1094.075)" opacity="0.21">
+    <g id="Group_13" data-name="Group 13" transform="translate(-221.908 807.075)" opacity="0.21">
       <g id="Rectangle_5-3" data-name="Rectangle 5" transform="translate(-0.092 33.925)" fill="#e64325" stroke="#707070" stroke-width="1">
         <rect width="35" height="35" stroke="none"/>
         <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
@@ -248,6 +248,78 @@
         <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
       </g>
       <g id="Rectangle_8-12" data-name="Rectangle 8" transform="translate(34 33.562)" fill="#e64325" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_60" data-name="Group 60" transform="translate(2371 1432)" opacity="0.21">
+      <g id="Rectangle_1-3" data-name="Rectangle 1" fill="#6e8cd0" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_2-3" data-name="Rectangle 2" transform="translate(0 34)" fill="#6e8cd0" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_3-3" data-name="Rectangle 3" transform="translate(0 68)" fill="#6e8cd0" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_4-3" data-name="Rectangle 4" transform="translate(0 102)" fill="#6e8cd0" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_61" data-name="Group 61" transform="translate(1955 1000.075)" opacity="0.21">
+      <g id="Rectangle_5-11" data-name="Rectangle 5" transform="translate(34 -0.075)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_6-11" data-name="Rectangle 6" transform="translate(34 33.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_7-10" data-name="Rectangle 7" transform="translate(34 67.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_8-13" data-name="Rectangle 8" transform="translate(0 67.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_62" data-name="Group 62" transform="translate(2302.317 704.438)" opacity="0.21">
+      <g id="Rectangle_5-12" data-name="Rectangle 5" transform="translate(-0.317 -0.438)" fill="#7c9848" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_6-12" data-name="Rectangle 6" transform="translate(-0.317 33.562)" fill="#7c9848" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_7-11" data-name="Rectangle 7" transform="translate(-0.317 67.562)" fill="#7c9848" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_8-14" data-name="Rectangle 8" transform="translate(33.683 67.562)" fill="#7c9848" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_63" data-name="Group 63" transform="translate(2169 1686.075)" opacity="0.21">
+      <g id="Rectangle_5-13" data-name="Rectangle 5" transform="translate(34 -0.075)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_6-13" data-name="Rectangle 6" transform="translate(34 33.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_7-12" data-name="Rectangle 7" transform="translate(34 67.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
+        <rect width="35" height="35" stroke="none"/>
+        <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
+      </g>
+      <g id="Rectangle_8-15" data-name="Rectangle 8" transform="translate(0 67.925)" fill="#a783c6" stroke="#707070" stroke-width="1">
         <rect width="35" height="35" stroke="none"/>
         <rect x="0.5" y="0.5" width="34" height="34" fill="none"/>
       </g>
