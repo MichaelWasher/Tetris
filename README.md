@@ -9,5 +9,5 @@ The project is made available under the MIT license.
 Feel free to use this project and the code as you please.
 
 A demo of this application is accessible at:
-[Demo](https://tetris.projects.michael-washer.dev/)
+[Demo](https://tetris.projects.michael-washer.com/)
 
